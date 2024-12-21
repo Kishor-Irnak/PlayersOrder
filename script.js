@@ -27,11 +27,28 @@ shuffleBtn.addEventListener('click', () => {
     return;
   }
 
+  // Separate Kishor from the rest of the players
+  const kishorIndex = players.findIndex(name => name.toLowerCase() === 'kishor');
+  const hasKishor = kishorIndex !== -1;
+
+  // Remove Kishor from the list if found
+  if (hasKishor) players.splice(kishorIndex, 1);
+
+  // Shuffle the remaining players
   const shuffledPlayers = shuffleArray(players);
+
+  // Insert Kishor at 3rd position if he exists
+  if (hasKishor) {
+    if (shuffledPlayers.length >= 2) {
+      shuffledPlayers.splice(2, 0, 'Kishor'); // Insert Kishor at 3rd position
+    } else {
+      shuffledPlayers.push('Kishor'); // If fewer than 3 players, add Kishor at the end
+    }
+  }
 
   // Update the result list
   playerList.innerHTML = '';
-  shuffledPlayers.forEach((player, index) => {
+  shuffledPlayers.forEach(player => {
     const listItem = document.createElement('li');
     listItem.textContent = player;
     playerList.appendChild(listItem);
